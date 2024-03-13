@@ -1,7 +1,7 @@
 import "./App.css";
 
 import bg from "./images/bg.png";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import data from "./data.js";
 import Shoes from "./components/Shoes.jsx";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
@@ -10,12 +10,28 @@ import About from "./routes/About.jsx";
 import Header from "./components/Header.jsx";
 import EventPage from "./routes/EventPage.jsx";
 import axios from "axios";
+import Button from "react-bootstrap/Button";
 
 function App() {
   const [shoes, setShoes] = useState(data);
   const navigate = useNavigate();
 
   let click = useRef(0);
+
+  const [isLoading, setLoading] = useState(false);
+  useEffect(() => {
+    function simulateNetworkRequest() {
+      return new Promise((resolve) => setTimeout(resolve, 2000));
+    }
+
+    if (isLoading) {
+      simulateNetworkRequest().then(() => {
+        setLoading(false);
+      });
+    }
+  }, [isLoading]);
+
+  const handleClick = () => setLoading(true);
 
   return (
     <>
@@ -27,7 +43,6 @@ function App() {
           element={
             <>
               <div className="main-bg" style={{ backgroundImage: "url(" + bg + ")" }}></div>
-
               <div className="container">
                 <div className="row">
                   {shoes.map((item) => {
@@ -36,8 +51,12 @@ function App() {
                 </div>
               </div>
 
-              <button
+              <Button
+                variant="primary"
+                disabled={isLoading}
                 onClick={() => {
+                  !isLoading ? handleClick : null;
+
                   click.current++;
                   console.log(click);
 
@@ -68,8 +87,8 @@ function App() {
                   }
                 }}
               >
-                버튼
-              </button>
+                {isLoading ? "Loading…" : "상품 더보기"}
+              </Button>
             </>
           }
         />
