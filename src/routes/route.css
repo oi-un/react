@@ -1,0 +1,23 @@
+.routePage {
+  padding: 20px 0;
+}
+
+.routePage h4 {
+  text-align: center;
+}
+
+.btn-box {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.link-btn {
+  text-decoration: none;
+  margin: 0 10px 0 0;
+  padding: 8px 12px;
+  background-color: skyblue;
+  border-radius: 15px;
+  color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
+}

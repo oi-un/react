@@ -1,0 +1,29 @@
+@font-face {
+  font-family: "GasoekOne-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_JAMO@1.0/GasoekOne-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ChosunGu";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: "ChosunGu";
+}
+
+.logo {
+  font-family: "GasoekOne-Regular";
+}
+
+/* 대문사진 */
+.main-bg {
+  height: 300px;
+  /* background-image: url("./images/bg.png"); */
+  background-size: cover;
+  background-position: center;
+}
