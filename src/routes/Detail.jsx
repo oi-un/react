@@ -1,10 +1,26 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
+
 import Nav from "react-bootstrap/Nav";
 
+import { Context1 } from "./../App.jsx";
+
 export default function Detail({ shoes }) {
+  let { 재고 } = useContext(Context1);
+
   let { id } = useParams();
+
+  let [fade, setFade] = useState("");
+  useEffect(() => {
+    let a = setTimeout(() => {
+      setFade("end");
+    }, 100);
+
+    return () => {
+      clearTimeout(a);
+      setFade("");
+    };
+  }, [shoes]);
 
   //url 파라미터와 shoes[i].id가 일치한 거 찾아야 함
   const shoesFind = shoes.find((item) => item.id == id);
@@ -34,9 +50,9 @@ export default function Detail({ shoes }) {
   let [tab, setTab] = useState(0);
 
   return (
-    <div className="container">
+    <div className={`container start ${fade}`}>
       {alert == true ? <div className="alert alert-warning">2초이내 구매시 할인</div> : null}
-
+      재고 = {재고}
       <div className="row">
         <div className="col-md-6">
           <img src={shoes[shoesId].img} width="100%" />
@@ -55,7 +71,6 @@ export default function Detail({ shoes }) {
           <button className="btn btn-danger">주문하기</button>
         </div>
       </div>
-
       <Nav variant="tabs" defaultActiveKey="link0">
         <Nav.Item>
           <Nav.Link
@@ -88,19 +103,25 @@ export default function Detail({ shoes }) {
           </Nav.Link>
         </Nav.Item>
       </Nav>
-
-      <TabContent tab={tab}></TabContent>
+      <TabContent tab={tab} shoes={shoes}></TabContent>
     </div>
   );
 }
 
-function TabContent({ tab }) {
-  // if (tab == 0) {
-  //   return <div>내용 1</div>;
-  // } else if (tab == 1) {
-  //   return <div>내용 2</div>;
-  // } else if (tab == 2) {
-  //   return <div>내용 3</div>;
-  // }
-  return [<div>내용 0</div>, <div>내용 1</div>, <div>내용 2</div>][tab];
+function TabContent({ tab, shoes }) {
+  let [fade, setFade] = useState("");
+
+  useEffect(() => {
+    let a = setTimeout(() => {
+      setFade("end");
+    }, 100);
+
+    return () => {
+      clearTimeout(a);
+      setFade("");
+    };
+  }, [tab]);
+
+  // eslint-disable-next-line react/jsx-key
+  return <div className={`start ${fade}`}>{[<div>{shoes[0].title}</div>, <div>내용 1</div>, <div>내용 2</div>][tab]}</div>;
 }

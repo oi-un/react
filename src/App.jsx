@@ -1,7 +1,7 @@
 import "./App.css";
 
 import bg from "./images/bg.png";
-import { useEffect, useRef, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import data from "./data.js";
 import Shoes from "./components/Shoes.jsx";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
@@ -11,9 +11,13 @@ import Header from "./components/Header.jsx";
 import EventPage from "./routes/EventPage.jsx";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
+import Cart from "./routes/Cart.jsx";
+
+export let Context1 = createContext();
 
 function App() {
   const [shoes, setShoes] = useState(data);
+  let [재고] = useState([10, 11, 12]);
   const navigate = useNavigate();
 
   let click = useRef(0);
@@ -92,7 +96,14 @@ function App() {
             </>
           }
         />
-        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+        <Route
+          path="/detail/:id"
+          element={
+            <Context1.Provider value={{ 재고, shoes }}>
+              <Detail shoes={shoes} />
+            </Context1.Provider>
+          }
+        />
 
         <Route path="/about" element={<About />}>
           <Route path="member" element={<div>멤버임</div>} />
@@ -103,6 +114,8 @@ function App() {
           <Route path="one" element={<div>첫 주문시 양배추즙 서비스</div>} />
           <Route path="two" element={<div>생일기념 쿠폰받기</div>} />
         </Route>
+
+        <Route path="/cart" element={<Cart />}></Route>
 
         <Route path="*" element={<div>없는 페이지입니당</div>} />
       </Routes>

@@ -34,6 +34,13 @@ export default function Header({ navigate }) {
           >
             Event
           </Nav.Link>
+          <Nav.Link
+            onClick={() => {
+              navigate("/cart");
+            }}
+          >
+            Cart
+          </Nav.Link>
         </Nav>
       </Container>
     </Navbar>
