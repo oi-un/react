@@ -1,11 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addCart } from "../store";
 
 import Nav from "react-bootstrap/Nav";
 
 import { Context1 } from "./../App.jsx";
 
 export default function Detail({ shoes }) {
+  let dispatch = useDispatch(); //store.js로 요청을 보내주는 함수
+
   let { 재고 } = useContext(Context1);
 
   let { id } = useParams();
@@ -68,7 +72,20 @@ export default function Detail({ shoes }) {
               setInput(e.target.value);
             }}
           />
-          <button className="btn btn-danger">주문하기</button>
+          <button
+            className="btn btn-danger"
+            onClick={() => {
+              let item = shoes[shoesId];
+              let cartItem = {
+                id: item.id,
+                name: item.title,
+                count: 1,
+              };
+              dispatch(addCart(cartItem));
+            }}
+          >
+            주문하기
+          </button>
         </div>
       </div>
       <Nav variant="tabs" defaultActiveKey="link0">

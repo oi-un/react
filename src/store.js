@@ -13,14 +13,29 @@ let cart = createSlice({
     {id : 2, name : 'Grey Yordan', count : 1}
   ] ,
   reducers : {
-    addCount(state, id){
-      const stateFind = state.find((item) => item.id == id.payload);
-      const stateId = stateFind.id;
-      console.log(stateId)
+    addCount(state, action){
+      let index = state.findIndex((a)=>{return a.id === action.payload})
+      state[index].count++
+    },
+    addCart(state, action){
+      let index = state.findIndex((item) => {
+        return item.id === action.payload.id
+      })
+
+      if(index !== -1){
+        state[index].count++
+      }else{
+        state.push(action.payload);
+      }
+    },
+    removeCart(state, action){
+      let index = state.findIndex((a) => {return a.id === action.payload})
+      console.log(index)
+      state.splice(index,1);
     }
   }
 })
-export let {addCount} = cart.actions
+export let {addCount, addCart, removeCart} = cart.actions
 
 export default configureStore({
   reducer: {
