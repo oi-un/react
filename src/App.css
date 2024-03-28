@@ -36,3 +36,13 @@
   opacity: 1;
   transition: opacity 0.5s;
 }
+
+/* 최근본 상품 */
+.sawItem {
+  position: absolute;
+  top: 30px;
+  right: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}

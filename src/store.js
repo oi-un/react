@@ -37,10 +37,28 @@ let cart = createSlice({
 })
 export let {addCount, addCart, removeCart} = cart.actions
 
+let watched = createSlice({
+  name : 'watched',
+  initialState : [],
+  reducers : {
+    watchedItem(state, action){
+      let json = localStorage.getItem('watched');
+      json = JSON.parse(json);
+
+      json.push(action.payload);
+      json = new Set(json);     // Set = 중복 제거
+      json = Array.from(json);  // Array.from() array로 만들어줌
+      localStorage.setItem('watched', JSON.stringify(json));
+    }
+  }
+})
+export let {watchedItem} = watched.actions
+
 export default configureStore({
   reducer: {
     user : user.reducer,
     stock : stock.reducer,
-    cart : cart.reducer
+    cart : cart.reducer,
+    watched : watched.reducer
   }
 }) 

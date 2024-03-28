@@ -4,7 +4,7 @@ import bg from "./images/bg.png";
 import { createContext, useEffect, useRef, useState } from "react";
 import data from "./data.js";
 import Shoes from "./components/Shoes.jsx";
-import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
+import { Routes, Route, Link, useNavigate, Outlet, json } from "react-router-dom";
 import Detail from "./routes/Detail.jsx";
 import About from "./routes/About.jsx";
 import Header from "./components/Header.jsx";
@@ -12,10 +12,26 @@ import EventPage from "./routes/EventPage.jsx";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Cart from "./routes/Cart.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { watchedItem } from "./store";
+import { l } from "vite/dist/node/types.d-AKzkD8vd.js";
 
 export let Context1 = createContext();
 
 function App() {
+  useEffect(() => {
+    // watched에 상품 있으면 새로생성 X
+    let ls = localStorage.getItem("watched");
+    ls = JSON.parse(ls);
+
+    if (ls.length == 0 || ls.length == null) {
+      let arr = JSON.stringify([]);
+      localStorage.setItem("watched", arr);
+    }
+  }, []);
+
+  let watched = useSelector((state) => state.watched);
+
   const [shoes, setShoes] = useState(data);
   let [재고] = useState([10, 11, 12]);
   const navigate = useNavigate();
@@ -37,6 +53,10 @@ function App() {
 
   const handleClick = () => setLoading(true);
 
+  // 최근 본 상품
+  let json = localStorage.getItem("watched");
+  json = JSON.parse(json);
+
   return (
     <>
       <Header navigate={navigate} />
@@ -48,6 +68,9 @@ function App() {
             <>
               <div className="main-bg" style={{ backgroundImage: "url(" + bg + ")" }}></div>
               <div className="container">
+                <div className="sawItem">
+                  <h5>최근 본 상품</h5>
+                </div>
                 <div className="row">
                   {shoes.map((item) => {
                     return <Shoes item={item} key={item.id} />;

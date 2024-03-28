@@ -1,18 +1,24 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addCart } from "../store";
+import { addCart, watchedItem } from "../store";
 
 import Nav from "react-bootstrap/Nav";
 
 import { Context1 } from "./../App.jsx";
 
 export default function Detail({ shoes }) {
-  let dispatch = useDispatch(); //store.js로 요청을 보내주는 함수
-
+  let dispatch = useDispatch();
   let { 재고 } = useContext(Context1);
-
   let { id } = useParams();
+
+  //url 파라미터와 shoes[i].id가 일치한 거 찾아야 함
+  const shoesFind = shoes.find((item) => item.id == id);
+  const shoesId = shoesFind.id;
+
+  useEffect(() => {
+    dispatch(watchedItem(shoesId));
+  }, []);
 
   let [fade, setFade] = useState("");
   useEffect(() => {
@@ -25,10 +31,6 @@ export default function Detail({ shoes }) {
       setFade("");
     };
   }, [shoes]);
-
-  //url 파라미터와 shoes[i].id가 일치한 거 찾아야 함
-  const shoesFind = shoes.find((item) => item.id == id);
-  const shoesId = shoesFind.id;
 
   let [count, setCount] = useState(0);
   let [alert, setAlert] = useState(true);

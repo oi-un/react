@@ -1,13 +1,13 @@
 import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
-import { changeName, increase } from "./../store/userSlice";
+import { increase } from "./../store/userSlice";
 import { addCount, removeCart } from "../store";
 
 export default function Cart() {
   let user = useSelector((state) => state.user);
   let cart = useSelector((state) => state.cart);
 
-  let dispatch = useDispatch(); //store.js로 요청을 보내주는 함수
+  let dispatch = useDispatch();
 
   return (
     <>
